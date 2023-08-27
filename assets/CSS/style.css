@@ -83,6 +83,8 @@ svg {
   height: 4rem;
   width: 4rem;
   background: white;
+  border-radius: 10%;
+  
 }
 
 #player-name {
@@ -97,4 +99,52 @@ svg {
 #player-round-score {
   color: white;
   font-size: 1.5rem;
+}
+
+/*********************************************************
+ * DICE SPECIFIC BEHAVIOUR                               *
+ * Inspired from :                                       *
+ * https://dev.to/ekeijl/creating-dice-using-css-grid-j4 *
+ *********************************************************/
+
+#dice-face {
+  display: grid;
+  grid-template-areas:
+    "a . c"
+    "e g f"
+    "d . b";
+    
+  flex: 0 0 auto;
+  width: 4rem;
+  height: 4rem;
+  padding: .25rem;
+}
+
+.dice-dot {
+  display: block;
+  align-self: center;
+  justify-self: center;
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  background-color: indianred;
+}
+
+.dice-dot:nth-child(2) {
+  grid-area: b;
+}
+.dice-dot:nth-child(3) {
+  grid-area: c;
+}
+.dice-dot:nth-child(4) {
+  grid-area: d;
+}
+.dice-dot:nth-child(5) {
+  grid-area: e;
+}
+.dice-dot:nth-child(6) {
+  grid-area: f;
+}
+.dice-dot:nth-child(odd):last-child {
+  grid-area: g;
 }
