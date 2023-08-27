@@ -75,6 +75,17 @@ svg {
   height: 4rem;
 }
 
+.active-dot {
+  position: absolute;
+  display: inline;
+  margin-left: 1rem;
+  margin-top: 1.25rem;
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  background-color: indianred;
+}
+
 /**************************
  * DYNAMIC ELEMENTS RULES *
  **************************/
