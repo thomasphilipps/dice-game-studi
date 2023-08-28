@@ -59,6 +59,14 @@ class Player {
     return this._active;
   }
 
+  set name(value) {
+    if (typeof value === "string") {
+      this._name = value;
+    } else {
+      console.warn(`Provided .name for ${this.name} is not a string`);
+    }
+  }
+
   set roundScore(value) {
     //Safety check
     if (value === parseInt(value, 10)) {
@@ -114,7 +122,7 @@ class Player {
     //adding the turn dot
     if (this.active) {
       let activeDot = parent.querySelector(`#player-name`);
-      activeDot.innerHTML += '<div class="active-dot"></div>';
+      activeDot.innerHTML += '<span class="active-dot"></span>';
     }
   }
 
@@ -134,30 +142,95 @@ class Player {
       return player2;
     }
   }
+
+  /**
+   * Resets the player
+   *
+   * TODO : making it without the 'n' parameter
+   *
+   * @param {Integer} n 1 or 2, the player's number
+   */
+
+  reset(n) {
+    this.name = `Player ${n}`;
+    this.globalScore = 0;
+    this.roundScore = 0;
+    this.active = false;
+  }
+
+  win() {
+    alert(`${this.name} won the game`);
+    onNewGame();
+  }
+
+  /**
+   * Switch turn
+   *
+   * @returns {Player}
+   */
+
+  static switch() {
+    if (player1.active) {
+      player1.active = false;
+      player1.roundScore = 0;
+      player2.active = true;
+      player1.render("player1");
+      player2.render("player2");
+      return player2;
+    } else {
+      player1.active = true;
+      player2.active = false;
+      player2.roundScore = 0;
+      player1.render("player1");
+      player2.render("player2");
+      return player1;
+    }
+  }
 }
 
 //Tests
 
-function onRollDice() {
+function onRollDice(player) {
+  console.log(player);
   let result = Dice.roll(6);
   Dice.render(result);
-  return result;
+  if (result > 1) {
+    player.roundScore += result;
+    player1.render("player1");
+    player2.render("player2");
+  } else {
+    alert(`${player.name} rolled a 1 and passes his turn`)
+    currentPlayer = Player.switch();
+  }
+}
+
+function onHold(player) {
+  player.globalScore += player.roundScore;
+  if (player.globalScore >= 100) {
+    player.win();
+  } else {
+    player.roundScore = 0;
+    currentPlayer = Player.switch();
+  }
 }
 
 function onNewGame() {
   //Reset players
-  player1 = new Player("Player 1");
-  player2 = new Player("Player 2");
+  player1.reset(1);
+  player2.reset(2);
   currentPlayer = Player.toss();
   player1.render("player1");
   player2.render("player2");
 }
 
-let player1;
-let player2;
+const player1 = new Player("Player 1");
+const player2 = new Player("Player 2");
 let currentPlayer;
 
 const newGameBtn = document.getElementById("new-game");
 const rollDiceBtn = document.getElementById("roll-dice");
+const holdBtn = document.getElementById("hold");
+
 newGameBtn.addEventListener("click", () => onNewGame());
-rollDiceBtn.addEventListener("click", () => onRollDice());
+rollDiceBtn.addEventListener("click", () => onRollDice(currentPlayer));
+holdBtn.addEventListener("click", () => onHold(currentPlayer));
