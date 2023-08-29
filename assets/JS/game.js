@@ -143,6 +143,29 @@ class Player {
     }
   }
 
+  onRollDice() {
+    let result = Dice.roll(6);
+    Dice.render(result);
+    if (result > 1) {
+      this.roundScore += result;
+      player1.render("player1");
+      player2.render("player2");
+    } else {
+      alert(`${this.name} rolled a 1 and passes his turn`);
+      currentPlayer = Player.switch();
+    }
+  }
+
+  onHold() {
+    this.globalScore += this.roundScore;
+    if (this.globalScore >= 100) {
+      this.win();
+    } else {
+      this.roundScore = 0;
+      currentPlayer = Player.switch();
+    }
+  }
+
   /**
    * Resets the player
    *
@@ -190,29 +213,6 @@ class Player {
 
 //Tests
 
-function onRollDice(player) {
-  let result = Dice.roll(6);
-  Dice.render(result);
-  if (result > 1) {
-    player.roundScore += result;
-    player1.render("player1");
-    player2.render("player2");
-  } else {
-    alert(`${player.name} rolled a 1 and passes his turn`);
-    currentPlayer = Player.switch();
-  }
-}
-
-function onHold(player) {
-  player.globalScore += player.roundScore;
-  if (player.globalScore >= 100) {
-    player.win();
-  } else {
-    player.roundScore = 0;
-    currentPlayer = Player.switch();
-  }
-}
-
 function onNewGame() {
   //Reset players
   player1.reset(1);
@@ -222,15 +222,20 @@ function onNewGame() {
   player2.render("player2");
 }
 
+// Players declaration
+
 const player1 = new Player("Player 1");
 const player2 = new Player("Player 2");
 let currentPlayer;
+
+// Player controls
 
 const newGameBtn = document.getElementById("new-game");
 const rollDiceBtn = document.getElementById("roll-dice");
 const holdBtn = document.getElementById("hold");
 
-newGameBtn.addEventListener("click", () => onNewGame());
+// Prevent text selection on controls
+
 newGameBtn.addEventListener("mousedown", (e) => {
   e.preventDefault();
 });
@@ -240,5 +245,9 @@ rollDiceBtn.addEventListener("mousedown", (e) => {
 holdBtn.addEventListener("mousedown", (e) => {
   e.preventDefault();
 });
-rollDiceBtn.addEventListener("click", () => onRollDice(currentPlayer));
-holdBtn.addEventListener("click", () => onHold(currentPlayer));
+
+// Controls listeners
+
+newGameBtn.addEventListener("click", () => onNewGame());
+rollDiceBtn.addEventListener("click", () => currentPlayer.onRollDice());
+holdBtn.addEventListener("click", () => currentPlayer.onHold());
