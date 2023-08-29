@@ -80,10 +80,23 @@ svg {
   display: inline;
   margin-left: 1rem;
   margin-top: 1.25rem;
-  width: .75rem;
-  height: .75rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 50%;
   background-color: indianred;
+}
+
+.darken-control {
+  color: lightgray;
+  cursor: default;
+}
+
+.darken-control svg {
+  color: lightgray;
+}
+
+.darken-control:hover {
+  color: lightgray;
 }
 
 /**************************
@@ -95,7 +108,6 @@ svg {
   width: 4rem;
   background: white;
   border-radius: 10%;
-  
 }
 
 #player-name {
@@ -124,19 +136,19 @@ svg {
     "a . c"
     "e g f"
     "d . b";
-    
+
   flex: 0 0 auto;
   width: 4rem;
   height: 4rem;
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 .dice-dot {
   display: block;
   align-self: center;
   justify-self: center;
-  width: .75rem;
-  height: .75rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 50%;
   background-color: indianred;
 }

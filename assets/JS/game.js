@@ -9,7 +9,6 @@ class Dice {
    * @param {Integer} n The number of sides
    * @returns Number
    */
-
   static roll(n) {
     return Math.floor(Math.random() * n) + 1;
   }
@@ -19,7 +18,6 @@ class Dice {
    *
    * @param {number} dots The number of dots on the face
    */
-
   static render(dots) {
     dots = parseInt(dots, 10); //making sure provided number is an integer
     const dice = document.getElementById("dice-face");
@@ -101,7 +99,6 @@ class Player {
    *
    * @param {string} id The player's HTML container id
    */
-
   render(id) {
     // list of player's dynamic #ids
     const idList = {
@@ -131,7 +128,6 @@ class Player {
    *
    * @returns {Player}
    */
-
   static toss() {
     let result = Dice.roll(2);
     if (result === 1) {
@@ -143,6 +139,9 @@ class Player {
     }
   }
 
+  /**
+   * Actions when the Roll Dice button is triggered
+   */
   onRollDice() {
     let result = Dice.roll(6);
     Dice.render(result);
@@ -156,6 +155,9 @@ class Player {
     }
   }
 
+  /**
+   * Action when the Hold button is triggerd
+   */
   onHold() {
     this.globalScore += this.roundScore;
     if (this.globalScore >= 100) {
@@ -169,11 +171,8 @@ class Player {
   /**
    * Resets the player
    *
-   * TODO : making it without the 'n' parameter
-   *
    * @param {Integer} n 1 or 2, the player's number
    */
-
   reset(n) {
     this.name = `Player ${n}`;
     this.globalScore = 0;
@@ -181,9 +180,12 @@ class Player {
     this.active = false;
   }
 
+  /**
+   * Actions when winning the game
+   */
   win() {
     alert(`${this.name} won the game`);
-    onNewGame();
+    Game.onNewGame();
   }
 
   /**
@@ -191,7 +193,6 @@ class Player {
    *
    * @returns {Player}
    */
-
   static switch() {
     if (player1.active) {
       player1.active = false;
@@ -211,31 +212,64 @@ class Player {
   }
 }
 
-//Tests
+/**
+ * Game methods
+ */
 
-function onNewGame() {
-  //Reset players
-  player1.reset(1);
-  player2.reset(2);
-  currentPlayer = Player.toss();
-  player1.render("player1");
-  player2.render("player2");
+class Game {
+  /**
+   * Resets the game
+   */
+  static onNewGame() {
+    this.activatePlayerControls();
+    // Reset players
+    player1.reset(1);
+    player2.reset(2);
+    currentPlayer = Player.toss();
+    player1.render("player1");
+    player2.render("player2");
+  }
+
+  /**
+   * Activate the players controls
+   */
+  static activatePlayerControls() {
+    // Enlight players controls
+    rollDiceBtn.classList.remove("darken-control");
+    holdBtn.classList.remove("darken-control");
+
+    /* // Activate listeners
+    rollDiceBtn.addEventListener("click", currentPlayer.onRollDice());
+    holdBtn.addEventListener("click", currentPlayer.onHold()); */
+  }
+
+  /**
+   * Desactivate the players controls
+   */
+  static deactivatePlayerControls() {
+    // Darken players controls
+    rollDiceBtn.classList.add("darken-control");
+    holdBtn.classList.add("darken-control");
+
+    /* // Deactivate listeners
+    rollDiceBtn.removeEventListener("click", currentPlayer.onRollDice());
+    holdBtn.removeEventListener("click", currentPlayer.onHold()); */
+  }
 }
 
-// Players declaration
+//Tests
 
+// Players declaration
 const player1 = new Player("Player 1");
 const player2 = new Player("Player 2");
-let currentPlayer;
+let currentPlayer = new Player("");
 
 // Player controls
-
 const newGameBtn = document.getElementById("new-game");
 const rollDiceBtn = document.getElementById("roll-dice");
 const holdBtn = document.getElementById("hold");
 
 // Prevent text selection on controls
-
 newGameBtn.addEventListener("mousedown", (e) => {
   e.preventDefault();
 });
@@ -247,7 +281,9 @@ holdBtn.addEventListener("mousedown", (e) => {
 });
 
 // Controls listeners
-
-newGameBtn.addEventListener("click", () => onNewGame());
+newGameBtn.addEventListener("click", () => Game.onNewGame());
 rollDiceBtn.addEventListener("click", () => currentPlayer.onRollDice());
 holdBtn.addEventListener("click", () => currentPlayer.onHold());
+
+//Hide players controls before the game
+Game.deactivatePlayerControls();
