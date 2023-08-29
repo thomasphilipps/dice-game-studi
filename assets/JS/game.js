@@ -191,7 +191,6 @@ class Player {
 //Tests
 
 function onRollDice(player) {
-  console.log(player);
   let result = Dice.roll(6);
   Dice.render(result);
   if (result > 1) {
@@ -199,7 +198,7 @@ function onRollDice(player) {
     player1.render("player1");
     player2.render("player2");
   } else {
-    alert(`${player.name} rolled a 1 and passes his turn`)
+    alert(`${player.name} rolled a 1 and passes his turn`);
     currentPlayer = Player.switch();
   }
 }
@@ -232,5 +231,14 @@ const rollDiceBtn = document.getElementById("roll-dice");
 const holdBtn = document.getElementById("hold");
 
 newGameBtn.addEventListener("click", () => onNewGame());
+newGameBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+});
+rollDiceBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+});
+holdBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+});
 rollDiceBtn.addEventListener("click", () => onRollDice(currentPlayer));
 holdBtn.addEventListener("click", () => onHold(currentPlayer));
