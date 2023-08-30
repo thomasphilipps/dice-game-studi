@@ -31,7 +31,95 @@
     <!-- Specific styles -->
     <link rel="stylesheet" href="./assets/CSS/style.css" />
   </head>
+
   <body>
+    <!-- Info bootstrap modal -->
+    <div
+      class="modal fade"
+      id="infoModal"
+      tabindex="-1"
+      aria-labelledby="infoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="infoModalLabel"></h1>
+            <button
+              type="button"
+              class="btn-close btn-sm"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Each player has a temporary score and a global score.</p>
+            <p>
+              At each turn, the player's temporary score is initialized to 0, and he can roll a die
+              as many times as he wishes. The result of a roll is added to the temporary score.
+            </p>
+            <p>At any time during his turn, the player may decide to:</p>
+            <ul>
+              <li>
+                Click on the "Hold" option, which sends points from the temporary score to the
+                global score. It will then be the other player's turn.
+              </li>
+              <li>
+                Roll the die. If he rolls a 1, his temporary score is lost and his turn is over.
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Round lost bootsrap modal-->
+    <div
+      class="modal fade"
+      id="roundLostModal"
+      tabindex="-1"
+      aria-labelledby="roundLostModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <span id="roundLostModalLabel"> </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game win bootsrap modal-->
+    <div
+      class="modal fade"
+      id="gameWinModal"
+      tabindex="-1"
+      aria-labelledby="gameWinModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <span id="gameWinModalLabel"> </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Game container -->
     <div class="container-fluid p-0 d-flex vh-100 text-center">
       <!-- Game board -->
@@ -47,14 +135,14 @@
               <!-- Player name -->
               <div id="player-name">PLAYER 1</div>
               <!-- Player Global score -->
-              <div id="player-global-score">57</div>
+              <div id="player-global-score">0</div>
             </div>
             <!-- Round score at bottom -->
             <div class="round-score-container py-1 d-flex flex-column justify-content-between">
               <!-- Label -->
               <div>CURRENT</div>
               <!-- Player Round score -->
-              <div id="player-round-score">19</div>
+              <div id="player-round-score">0</div>
             </div>
           </div>
         </div>
@@ -69,7 +157,7 @@
               <!-- Player name -->
               <div id="player-name">PLAYER 2</div>
               <!-- Player Global score -->
-              <div id="player-global-score">88</div>
+              <div id="player-global-score">0</div>
             </div>
             <!-- Round score at bottom -->
             <div class="round-score-container py-1 d-flex flex-column justify-content-between">
@@ -151,6 +239,22 @@
               </svg>
               <span>HOLD</span>
             </div>
+          </div>
+        </div>
+        <!-- Info button -->
+        <div class="position-absolute d-flex px-4 my-2">
+          <div id="infoBtn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="bi bi-info-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path
+                d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+              />
+            </svg>
           </div>
         </div>
       </div>
