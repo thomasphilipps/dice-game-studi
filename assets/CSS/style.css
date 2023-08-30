@@ -87,6 +87,7 @@ svg {
 }
 
 .darken-control {
+  pointer-events: none;
   color: lightgray;
   cursor: default;
 }

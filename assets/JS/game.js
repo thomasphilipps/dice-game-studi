@@ -185,7 +185,7 @@ class Player {
    */
   win() {
     alert(`${this.name} won the game`);
-    Game.onNewGame();
+    Game.deactivatePlayerControls();
   }
 
   /**
@@ -221,7 +221,9 @@ class Game {
    * Resets the game
    */
   static onNewGame() {
+    // Activate player controls
     this.activatePlayerControls();
+
     // Reset players
     player1.reset(1);
     player2.reset(2);
@@ -237,10 +239,6 @@ class Game {
     // Enlight players controls
     rollDiceBtn.classList.remove("darken-control");
     holdBtn.classList.remove("darken-control");
-
-    /* // Activate listeners
-    rollDiceBtn.addEventListener("click", currentPlayer.onRollDice());
-    holdBtn.addEventListener("click", currentPlayer.onHold()); */
   }
 
   /**
@@ -250,14 +248,8 @@ class Game {
     // Darken players controls
     rollDiceBtn.classList.add("darken-control");
     holdBtn.classList.add("darken-control");
-
-    /* // Deactivate listeners
-    rollDiceBtn.removeEventListener("click", currentPlayer.onRollDice());
-    holdBtn.removeEventListener("click", currentPlayer.onHold()); */
   }
 }
-
-//Tests
 
 // Players declaration
 const player1 = new Player("Player 1");
