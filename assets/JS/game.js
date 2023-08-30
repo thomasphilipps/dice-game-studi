@@ -264,6 +264,10 @@ class Game {
   }
 }
 
+/*******************
+ * THE GAME ITSELF *
+ *******************/
+
 // Players declaration
 const player1 = new Player("Player 1");
 const player2 = new Player("Player 2");
@@ -300,3 +304,20 @@ infoBtn.addEventListener("click", () => {
   console.log("clicked");
   Game.showModal("infoModal", "infoModalLabel", "Rules");
 });
+
+/********************
+ * LANGUAGE SUPPORT *
+ ********************/
+
+const dropdownElement = document.getElementById('language-dropdown');
+const jsonFiles = ['fr.json', 'en.json'];
+
+// Générer les options du dropdown à partir de la liste de fichiers JSON
+jsonFiles.forEach(fileName => {
+  fileName = fileName.substring(0, fileName.lastIndexOf('.'))
+  const option = document.createElement('option');
+  option.value = fileName; // La valeur est le nom du fichier
+  option.textContent = fileName; // Le texte affiché est aussi le nom du fichier
+  dropdownElement.appendChild(option);
+});
+
