@@ -150,10 +150,8 @@ class Player {
       player1.render("player1");
       player2.render("player2");
     } else {
-      let roundLostModal = new bootstrap.Modal(document.getElementById("roundLostModal"), {});
-      let roundLostModalLabel = document.getElementById("roundLostModalLabel");
-      roundLostModalLabel.innerHTML = `${this.name} rolled a 1 and passes his turn`;
-      roundLostModal.show();
+      let messageContent = `${this.name} rolled a 1 and passes his turn`;
+      Game.showModal("roundLostModal", "roundLostModalLabel", messageContent);
       currentPlayer = Player.switch();
     }
   }
@@ -189,10 +187,8 @@ class Player {
   win() {
     player1.render("player1");
     player2.render("player2");
-    let gameWinModal = new bootstrap.Modal(document.getElementById("gameWinModal"), {});
-    let gameWinModalLabel = document.getElementById("gameWinModalLabel");
-    gameWinModalLabel.innerHTML = `${this.name} won the game`;
-    gameWinModal.show();
+    let messageContent = `${this.name} won the game`;
+    Game.showModal("gameWinModal", "gameWinModalLabel", messageContent);
     Game.deactivatePlayerControls();
   }
 
@@ -257,6 +253,15 @@ class Game {
     rollDiceBtn.classList.add("darken-control");
     holdBtn.classList.add("darken-control");
   }
+
+  static showModal(modalId, modalLabelId, messageContent) {
+    let modal = new bootstrap.Modal(document.getElementById(modalId), {});
+    if (messageContent) {
+      let modalLabel = document.getElementById(modalLabelId);
+      modalLabel.innerHTML = messageContent;
+    }
+    modal.show();
+  }
 }
 
 // Players declaration
@@ -287,3 +292,11 @@ holdBtn.addEventListener("click", () => currentPlayer.onHold());
 
 //Hide players controls before the game
 Game.deactivatePlayerControls();
+
+//Info button modal
+const infoBtn = document.getElementById("infoBtn");
+console.log(infoBtn);
+infoBtn.addEventListener("click", () => {
+  console.log("clicked");
+  Game.showModal("infoModal", "infoModalLabel", "Rules");
+});
