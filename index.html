@@ -31,7 +31,48 @@
     <!-- Specific styles -->
     <link rel="stylesheet" href="./assets/CSS/style.css" />
   </head>
+
   <body>
+    <!-- Round lost bootsrap modal-->
+    <div
+      class="modal fade"
+      id="roundLostModal"
+      tabindex="-1"
+      aria-labelledby="roundLostModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <span id="roundLostModalLabel"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game win bootsrap modal-->
+    <div
+      class="modal fade"
+      id="gameWinModal"
+      tabindex="-1"
+      aria-labelledby="gameWinModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <span id="gameWinModalLabel"></span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Game container -->
     <div class="container-fluid p-0 d-flex vh-100 text-center">
       <!-- Game board -->

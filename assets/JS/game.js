@@ -150,7 +150,10 @@ class Player {
       player1.render("player1");
       player2.render("player2");
     } else {
-      alert(`${this.name} rolled a 1 and passes his turn`);
+      let roundLostModal = new bootstrap.Modal(document.getElementById("roundLostModal"), {});
+      let roundLostModalLabel = document.getElementById("roundLostModalLabel");
+      roundLostModalLabel.innerHTML = `${this.name} rolled a 1 and passes his turn`;
+      roundLostModal.show();
       currentPlayer = Player.switch();
     }
   }
@@ -184,7 +187,12 @@ class Player {
    * Actions when winning the game
    */
   win() {
-    alert(`${this.name} won the game`);
+    player1.render("player1");
+    player2.render("player2");
+    let gameWinModal = new bootstrap.Modal(document.getElementById("gameWinModal"), {});
+    let gameWinModalLabel = document.getElementById("gameWinModalLabel");
+    gameWinModalLabel.innerHTML = `${this.name} won the game`;
+    gameWinModal.show();
     Game.deactivatePlayerControls();
   }
 
