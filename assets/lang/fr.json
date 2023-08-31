@@ -11,5 +11,7 @@
   "ruleOption1": "Cliquez sur l'option 'GARDER', qui envoie les points du score temporaire au score global. score global. C'est ensuite au tour de l'autre joueur.",
   "ruleOption2": "Lancer le dé. S'il obtient un 1, son score temporaire est perdu et son tour est terminé.",
   "ruleWin": "Le premier joueur qui atteint 100 points au score global gagne le jeu.",
-  "close": "Fermer"
+  "close": "Fermer",
+  "passTurn": "a obtenu un 1 et passe son tour",
+  "playerWin": "a gagné !"
 }

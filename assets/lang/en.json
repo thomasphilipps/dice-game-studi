@@ -11,5 +11,7 @@
   "ruleOption1": "Click on the 'HOLD' option, which sends points from the temporary score to the global score. It will then be the other player's turn.",
   "ruleOption2": "Roll the die. If he rolls a 1, his temporary score is lost and his turn is over.",
   "ruleWin": "The first player to reach 100 points in the overall score wins the game.",
-  "close": "Close"
+  "close": "Close",
+  "passTurn": "rolled a 1 and passes his turn",
+  "playerWin": "won the game !"
 }
