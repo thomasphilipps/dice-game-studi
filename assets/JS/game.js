@@ -150,7 +150,7 @@ class Player {
       player1.render("player1");
       player2.render("player2");
     } else {
-      let messageContent = `${this.name} ${translationData["passTrurn"]}`;
+      let messageContent = `${this.name} ${translationData["passTurn"]}`;
       Game.showModal("roundLostModal", "roundLostModalLabel", messageContent);
       currentPlayer = Player.switch();
     }
@@ -187,7 +187,7 @@ class Player {
   win() {
     player1.render("player1");
     player2.render("player2");
-    let messageContent = `${this.name} won the game`;
+    let messageContent = `${this.name} ${translationData["playerWin"]}`;
     Game.showModal("gameWinModal", "gameWinModalLabel", messageContent);
     Game.deactivatePlayerControls();
   }
@@ -274,56 +274,58 @@ let translationData = {};
 
 // Generate dropdown options from JSON file list
 jsonFiles.forEach((fileName) => {
-  optionName = fileName.substring(0, fileName.lastIndexOf("."));
+  let optionName = fileName.substring(0, fileName.lastIndexOf("."));
   const option = document.createElement("option");
   option.value = fileName; // The value is the file name without extension
   option.textContent = optionName; // The text displayed is also the file name without extension
   dropdownElement.appendChild(option);
 });
 
-function updateContent(translations) {
-  document.getElementById("rule1").textContent = translations["rule1"];
-  document.getElementById("rule2").textContent = translations["rule2"];
-  document.getElementById("ruleOptionHeader").textContent = translations["ruleOptionHeader"];
-  document.getElementById("ruleOption1").textContent = translations["ruleOption1"];
-  document.getElementById("ruleOption2").textContent = translations["ruleOption2"];
-  document.getElementById("ruleWin").textContent = translations["ruleWin"];
-  document.getElementById("infoModalClose").textContent = translations["close"];
-  document.getElementById("currentPlayer1").textContent = translations["current"];
-  document.getElementById("currentPlayer2").textContent = translations["current"];
-  document.getElementById("newGame").textContent = translations["newGame"];
-  document.getElementById("rollDice").textContent = translations["rollDice"];
-  document.getElementById("holdLang").textContent = translations["hold"];
+async function loadTranslations(fileName) {
+  try {
+    const response = await fetch(fileName);
+    const translations = await response.json();
+    translationData = translations;
+    document.getElementById("rule1").textContent = translations["rule1"];
+    document.getElementById("rule2").textContent = translations["rule2"];
+    document.getElementById("ruleOptionHeader").textContent = translations["ruleOptionHeader"];
+    document.getElementById("ruleOption1").textContent = translations["ruleOption1"];
+    document.getElementById("ruleOption2").textContent = translations["ruleOption2"];
+    document.getElementById("ruleWin").textContent = translations["ruleWin"];
+    document.getElementById("infoModalClose").textContent = translations["close"];
+    document.getElementById("currentPlayer1").textContent = translations["current"];
+    document.getElementById("currentPlayer2").textContent = translations["current"];
+    document.getElementById("newGame").textContent = translations["newGame"];
+    document.getElementById("rollDice").textContent = translations["rollDice"];
+    document.getElementById("holdLang").textContent = translations["hold"];
+    player1.name = `${translationData["player"]} 1`;
+    player2.name = `${translationData["player"]} 2`;
+  } catch (error) {
+    console.error("Erreur lors du chargement des traductions :", error);
+  }
 }
 
-dropdownElement.addEventListener('change', function() {
-  const selectedFileName = this.value;
-
-  // Charger les traductions pour le fichier JSON sélectionné
-  fetch("./assets/lang/" + selectedFileName)
-    .then(response => response.json())
-    .then(translations => {
-      translationData = translations;
-      updateContent(translationData);
-    });
+dropdownElement.addEventListener("change", function () {
+  const selectedFileName = "./assets/lang/" + this.value;
+  loadTranslations(selectedFileName).then(() => {
+    player1.render("player1");
+    player2.render("player2");
+  });;
 });
-
-fetch("./assets/lang/fr.json")
-  .then((response) => response.json())
-  .then((translations) => {
-    translationData = translations;
-    updateContent(translationData);
-  });
 
 /*******************
  * THE GAME ITSELF *
  *******************/
 
 // Players declaration
-const player1 = new Player(`${translationData["player"]} 1`);
-const player2 = new Player(`${translationData["player"]} 2`);
-console.log(translationData)
+const player1 = new Player("");
+const player2 = new Player("");
 let currentPlayer = new Player("");
+
+loadTranslations("./assets/lang/fr.json").then(() => {
+  player1.render("player1");
+  player2.render("player2");
+});
 
 // Player controls
 const newGameBtn = document.getElementById("new-game");
