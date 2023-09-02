@@ -53,25 +53,34 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>Each player has a temporary score and a global score.</p>
-            <p>
+            <p id="rule1">Each player has a temporary score and a global score.</p>
+            <p id="rule2">
               At each turn, the player's temporary score is initialized to 0, and he can roll a die
               as many times as he wishes. The result of a roll is added to the temporary score.
             </p>
-            <p>At any time during his turn, the player may decide to:</p>
+            <p id="ruleOptionHeader">At any time during his turn, the player may decide to:</p>
             <ul>
-              <li>
+              <li id="ruleOption1">
                 Click on the "Hold" option, which sends points from the temporary score to the
                 global score. It will then be the other player's turn.
               </li>
-              <li>
+              <li id="ruleOption2">
                 Roll the die. If he rolls a 1, his temporary score is lost and his turn is over.
               </li>
             </ul>
-            <p>The first player with a global score of 100 wins the game</p>
+            <p id="ruleWin">
+              The first player to reach 100 points in the overall score wins the game.
+            </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button
+              id="infoModalClose"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -141,7 +150,7 @@
             <!-- Round score at bottom -->
             <div class="round-score-container py-1 d-flex flex-column justify-content-between">
               <!-- Label -->
-              <div>CURRENT</div>
+              <div id="currentPlayer1">CURRENT</div>
               <!-- Player Round score -->
               <div id="player-round-score">0</div>
             </div>
@@ -163,7 +172,7 @@
             <!-- Round score at bottom -->
             <div class="round-score-container py-1 d-flex flex-column justify-content-between">
               <!-- Label -->
-              <div>CURRENT</div>
+              <div id="currentPlayer2">CURRENT</div>
               <!-- Player round score -->
               <div id="player-round-score">0</div>
             </div>
@@ -200,7 +209,7 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            <span>NEW GAME</span>
+            <span id="newGame">NEW GAME</span>
           </div>
           <div class="game-controls d-flex flex-column justify-content-between align-items-center">
             <!-- Roll dice -->
@@ -219,7 +228,7 @@
                   d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
                 />
               </svg>
-              <span>ROLL DICE</span>
+              <span id="rollDice">ROLL DICE</span>
             </div>
             <!-- Hold score -->
             <div id="hold" class="clickable d-flex align-items-center">
@@ -238,12 +247,12 @@
                   d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
                 />
               </svg>
-              <span>HOLD</span>
+              <span id="holdLang">HOLD</span>
             </div>
           </div>
         </div>
         <!-- Info button -->
-        <div class="position-absolute d-flex px-4 my-2">
+        <div class="position-absolute d-flex px-4 my-2 justify-content-between">
           <div id="infoBtn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -256,6 +265,11 @@
                 d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
               />
             </svg>
+          </div>
+          <div>
+            <select class="form-select form-select-sm" id="language-dropdown">
+              <!-- Options are dynamically generated -->
+            </select>
           </div>
         </div>
       </div>

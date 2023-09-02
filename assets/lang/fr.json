@@ -1,0 +1,17 @@
+{
+  "player": "JOUEUR",
+  "newGame": "NOUVELLE PARTIE",
+  "rollDice": "LANCER LE DE",
+  "hold": "GARDER",
+  "current": "EN COURS",
+  "rules": "REGLES",
+  "rule1": "Chaque joueur dispose d'un score temporaire et d'un score global.",
+  "rule2": "A chaque tour, le score temporaire du joueur est initialisé à 0, et il peut lancer un dé autant de fois qu'il le souhaite. Le résultat d'un jet est ajouté au score temporaire.",
+  "ruleOptionHeader": "A tout moment de son tour, le joueur peut décider de :",
+  "ruleOption1": "Cliquez sur l'option 'GARDER', qui envoie les points du score temporaire au score global. score global. C'est ensuite au tour de l'autre joueur.",
+  "ruleOption2": "Lancer le dé. S'il obtient un 1, son score temporaire est perdu et son tour est terminé.",
+  "ruleWin": "Le premier joueur qui atteint 100 points au score global gagne le jeu.",
+  "close": "Fermer",
+  "passTurn": "a obtenu un 1 et passe son tour",
+  "playerWin": "a gagné !"
+}
