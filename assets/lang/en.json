@@ -1,0 +1,17 @@
+{
+  "player": "PLAYER",
+  "newGame": "NEW GAME",
+  "rollDice": "ROLL DICE",
+  "hold": "HOLD",
+  "current": "CURRENT",
+  "rules": "RULES",
+  "rule1": "Each player has a temporary score and a global score.",
+  "rule2": "At each turn, the player's temporary score is initialized to 0, and he can roll a die as many times as he wishes. The result of a roll is added to the temporary score.",
+  "ruleOptionHeader": "At any time during his turn, the player may decide to:",
+  "ruleOption1": "Click on the 'HOLD' option, which sends points from the temporary score to the global score. It will then be the other player's turn.",
+  "ruleOption2": "Roll the die. If he rolls a 1, his temporary score is lost and his turn is over.",
+  "ruleWin": "The first player to reach 100 points in the global score wins the game.",
+  "close": "Close",
+  "passTurn": "rolled a 1 and passes his turn",
+  "playerWin": "won the game !"
+}
