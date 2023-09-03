@@ -175,7 +175,7 @@ class Player {
    * @param {Integer} n 1 or 2, the player's number
    */
   reset(n) {
-    this.name = `Player ${n}`;
+    this.name = `${translationData["player"]} ${n}`;
     this.globalScore = 0;
     this.roundScore = 0;
     this.active = false;
