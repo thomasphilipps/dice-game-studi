@@ -1,0 +1,14 @@
+services:
+  web:
+    image: nginx:alpine  # Utiliser l'image officielle Nginx
+    container_name: dice-game
+    ports:
+      - "8080:80"  # Mappe le port 8080 de l'hôte vers le port 80 du container
+    volumes:
+      - ./:/usr/share/nginx/html  # Monte les fichiers locaux dans le container
+    networks:
+      - webnet
+    restart: always  # Redémarre le container automatiquement en cas d'arrêt
+
+networks:
+  webnet: # Définit le réseau
