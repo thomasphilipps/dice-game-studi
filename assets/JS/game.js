@@ -66,7 +66,6 @@ class Player {
   }
 
   set roundScore(value) {
-    //Safety check
     if (value === parseInt(value, 10)) {
       this._roundScore = value;
     } else {
@@ -76,7 +75,6 @@ class Player {
   }
 
   set globalScore(value) {
-    //Safety check
     if (value === parseInt(value, 10)) {
       this._globalScore = value;
     } else {
@@ -100,23 +98,19 @@ class Player {
    * @param {string} id The player's HTML container id
    */
   render(id) {
-    // list of player's dynamic #ids
     const idList = {
       name: "player-name",
       roundScore: "player-round-score",
       globalScore: "player-global-score",
     };
 
-    // getting the player's container
     const parent = document.getElementById(id);
 
-    // setting the player's dynamic areas by their #ids
     for (let key in idList) {
       let child = parent.querySelector(`#${idList[key]}`);
       child.innerHTML = this[key];
     }
 
-    //adding the turn dot
     if (this.active) {
       let activeDot = parent.querySelector(`#player-name`);
       activeDot.innerHTML += '<span class="active-dot"></span>';
@@ -157,7 +151,7 @@ class Player {
   }
 
   /**
-   * Action when the Hold button is triggerd
+   * Action when the Hold button is triggered
    */
   onHold() {
     this.globalScore += this.roundScore;
@@ -225,10 +219,7 @@ class Game {
    * Resets the game
    */
   static onNewGame() {
-    // Activate player controls
     this.activatePlayerControls();
-
-    // Reset players
     player1.reset(1);
     player2.reset(2);
     currentPlayer = Player.toss();
@@ -240,18 +231,18 @@ class Game {
    * Activate the players controls
    */
   static activatePlayerControls() {
-    // Enlight players controls
     rollDiceBtn.classList.remove("darken-control");
     holdBtn.classList.remove("darken-control");
+    saveGameBtn.classList.remove("darken-control");
   }
 
   /**
-   * Desactivate the players controls
+   * Deactivate the players controls
    */
   static deactivatePlayerControls() {
-    // Darken players controls
     rollDiceBtn.classList.add("darken-control");
     holdBtn.classList.add("darken-control");
+    saveGameBtn.classList.add("darken-control");
   }
 
   static showModal(modalId, modalLabelId, messageContent) {
@@ -261,6 +252,78 @@ class Game {
       modalLabel.innerHTML = messageContent;
     }
     modal.show();
+  }
+
+  /****************
+   * Save & Restore methods
+   ****************/
+
+  /**
+   * Save the game state to an external API
+   * @param {string} saveName The name of the save
+   */
+  static async saveGame(saveName) {
+    const saveData = {
+      name: saveName,
+      player1: {
+        name: player1.name,
+        globalScore: player1.globalScore,
+        roundScore: player1.roundScore,
+        active: player1.active,
+      },
+      player2: {
+        name: player2.name,
+        globalScore: player2.globalScore,
+        roundScore: player2.roundScore,
+        active: player2.active,
+      },
+    };
+
+    try {
+      const response = await fetch(apiBaseUrl, {
+        method: "POST",
+        body: JSON.stringify(saveData),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const result = await response.json();
+      console.log("Partie sauvegardée avec succès : ", result);
+      alert("Sauvegarde réussie !");
+    } catch (error) {
+      console.error("Erreur lors de la sauvegarde de la partie : ", error);
+      alert("Erreur lors de la sauvegarde");
+    }
+  }
+
+  /**
+   * Restore the game state from an external API
+   * @param {number} saveId The ID of the save to restore
+   */
+  static async restoreGame(saveId) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/${saveId}`);
+      const saveData = await response.json();
+
+      player1.name = saveData.player1.name;
+      player1.globalScore = saveData.player1.globalScore;
+      player1.roundScore = saveData.player1.roundScore;
+      player1.active = saveData.player1.active;
+
+      player2.name = saveData.player2.name;
+      player2.globalScore = saveData.player2.globalScore;
+      player2.roundScore = saveData.player2.roundScore;
+      player2.active = saveData.player2.active;
+
+      player1.render("player1");
+      player2.render("player2");
+
+      this.activatePlayerControls();
+      console.log("Partie restaurée avec succès : ", saveData);
+    } catch (error) {
+      console.error("Erreur lors de la restauration de la partie : ", error);
+      alert("Erreur lors de la restauration");
+    }
   }
 }
 
@@ -296,6 +359,8 @@ async function loadTranslations(fileName) {
     document.getElementById("currentPlayer1").textContent = translations["current"];
     document.getElementById("currentPlayer2").textContent = translations["current"];
     document.getElementById("newGame").textContent = translations["newGame"];
+    document.getElementById("saveGame").textContent = translations["saveGame"];
+    document.getElementById("restoreGame").textContent = translations["restoreGame"];
     document.getElementById("rollDice").textContent = translations["rollDice"];
     document.getElementById("holdLang").textContent = translations["hold"];
     player1.name = `${translationData["player"]} 1`;
@@ -310,7 +375,7 @@ dropdownElement.addEventListener("change", function () {
   loadTranslations(selectedFileName).then(() => {
     player1.render("player1");
     player2.render("player2");
-  });;
+  });
 });
 
 /*******************
@@ -322,6 +387,9 @@ const player1 = new Player("");
 const player2 = new Player("");
 let currentPlayer = new Player("");
 
+// API base URL
+const apiBaseUrl = "http://localhost:3000/games";
+
 loadTranslations("./assets/lang/fr.json").then(() => {
   player1.render("player1");
   player2.render("player2");
@@ -331,6 +399,8 @@ loadTranslations("./assets/lang/fr.json").then(() => {
 const newGameBtn = document.getElementById("new-game");
 const rollDiceBtn = document.getElementById("roll-dice");
 const holdBtn = document.getElementById("hold");
+const saveGameBtn = document.getElementById("save-game");
+const restoreGameBtn = document.getElementById("restore-game");
 
 // Prevent text selection on controls
 newGameBtn.addEventListener("mousedown", (e) => {
@@ -342,17 +412,35 @@ rollDiceBtn.addEventListener("mousedown", (e) => {
 holdBtn.addEventListener("mousedown", (e) => {
   e.preventDefault();
 });
+saveGameBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+});
+restoreGameBtn.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+});
 
 // Controls listeners
 newGameBtn.addEventListener("click", () => Game.onNewGame());
 rollDiceBtn.addEventListener("click", () => currentPlayer.onRollDice());
 holdBtn.addEventListener("click", () => currentPlayer.onHold());
 
-//Hide players controls before the game
+// Hide players controls before the game
 Game.deactivatePlayerControls();
 
-//Info button modal
+// Info button modal
 const infoBtn = document.getElementById("infoBtn");
 infoBtn.addEventListener("click", () => {
   Game.showModal("infoModal", "infoModalLabel", translationData["rules"]);
+});
+
+// Save and Restore buttons
+
+saveGameBtn.addEventListener("click", () => {
+  const saveName = prompt("Nom de la sauvegarde : ");
+  if (saveName) Game.saveGame(saveName);
+});
+
+restoreGameBtn.addEventListener("click", () => {
+  const saveId = prompt("ID de la sauvegarde à restaurer : ");
+  if (saveId) Game.restoreGame(saveId);
 });
