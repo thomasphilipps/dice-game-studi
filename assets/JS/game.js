@@ -215,6 +215,28 @@ class Player {
  */
 
 class Game {
+  static playerData() {
+    return {
+      player1: {
+        name: player1.name,
+        globalScore: player1.globalScore,
+        roundScore: player1.roundScore,
+        active: player1.active,
+      },
+      player2: {
+        name: player2.name,
+        globalScore: player2.globalScore,
+        roundScore: player2.roundScore,
+        active: player2.active,
+      },
+    };
+  }
+
+  static assignPlayerData(data) {
+    Object.assign(player1, data.player1);
+    Object.assign(player2, data.player2);
+  }
+
   /**
    * Resets the game
    */
@@ -263,21 +285,7 @@ class Game {
    * @param {string} saveName The name of the save
    */
   static async saveGame(saveName) {
-    const saveData = {
-      name: saveName,
-      player1: {
-        name: player1.name,
-        globalScore: player1.globalScore,
-        roundScore: player1.roundScore,
-        active: player1.active,
-      },
-      player2: {
-        name: player2.name,
-        globalScore: player2.globalScore,
-        roundScore: player2.roundScore,
-        active: player2.active,
-      },
-    };
+    const saveData = { name: saveName, ...this.playerData() };
 
     try {
       const response = await fetch(apiBaseUrl, {
@@ -305,15 +313,7 @@ class Game {
       const response = await fetch(`${apiBaseUrl}/${saveId}`);
       const saveData = await response.json();
 
-      player1.name = saveData.player1.name;
-      player1.globalScore = saveData.player1.globalScore;
-      player1.roundScore = saveData.player1.roundScore;
-      player1.active = saveData.player1.active;
-
-      player2.name = saveData.player2.name;
-      player2.globalScore = saveData.player2.globalScore;
-      player2.roundScore = saveData.player2.roundScore;
-      player2.active = saveData.player2.active;
+      this.assignPlayerData(saveData);
 
       player1.render("player1");
       player2.render("player2");
