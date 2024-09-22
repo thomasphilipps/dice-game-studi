@@ -1,6 +1,8 @@
 {
   "player": "PLAYER",
   "newGame": "NEW GAME",
+  "saveGame": "SAVE GAME",
+  "restoreGame": "RESTORE GAME",
   "rollDice": "ROLL DICE",
   "hold": "HOLD",
   "current": "CURRENT",

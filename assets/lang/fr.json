@@ -1,6 +1,8 @@
 {
   "player": "JOUEUR",
   "newGame": "NOUVELLE PARTIE",
+  "saveGame": "SAUVEGARDER",
+  "restoreGame": "RESTAURER UNE PARTIE",
   "rollDice": "LANCER LE DE",
   "hold": "GARDER",
   "current": "EN COURS",
